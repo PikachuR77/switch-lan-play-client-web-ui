@@ -21,4 +21,4 @@ def not_allowed(e):
 
 @handle.app_errorhandler(500)
 def error(e):
-    return make_error(msg='服务器异常'), 500
+    return make_error(msg='Server Exception'), 500
