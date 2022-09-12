@@ -11,7 +11,7 @@ def lan_connect():
     target_id = request.values.get('id')
     find: ModelServer = ModelServer.get_or_none(id=target_id)
     if find is None:
-        return make_faild(msg='Operation failed')
+        return make_faild(msg='Operation Failed')
 
     service_lan.start_lan_play(ip=find.host)
     return make_success()
