@@ -18,10 +18,10 @@ def server_add():
 
     find = ModelServer.get_or_none(ModelServer.host == host)
     if find is not None:
-        return make_faild(msg='该服务器已存在', data=find)
+        return make_faild(msg='This server already exists', data=find)
 
     find = ModelServer.create(host=host, name=name)
-    return make_success(msg='添加服务器成功', data=find)
+    return make_success(msg='Added server successfully', data=find)
 
 
 @server.route('/remove', methods=['POST'])
@@ -29,9 +29,9 @@ def server_remove():
     target_id = request.values['id']
     find: ModelServer = ModelServer.get_or_none(id=target_id)
     if find is None:
-        return make_faild(msg='操作失败')
+        return make_faild(msg='Operation Failed')
     if find.host == service_lan.lan_address:
-        return make_faild(msg='删除失败，服务器正在连接中')
+        return make_faild(msg='Failed to delete, server is connected')
     find.delete_instance()
     return make_success()
 
@@ -57,7 +57,7 @@ def server_refresh():
                 timeout=(0.5, 2),
             )
             if response.status_code != 200:
-                item.version = '错误: {0}'.format(response.status_code)
+                item.version = 'Error: {0}'.format(response.status_code)
                 item.save()
                 continue
 
@@ -67,16 +67,16 @@ def server_refresh():
             item.ping = int(response.elapsed.total_seconds() * 1000)
 
         except requests.exceptions.ReadTimeout as e:
-            item.version = '服务器响应超时'
+            item.version = 'Server response timed out'
             item.ping = -1
         except requests.exceptions.ConnectTimeout as e:
-            item.version = '连接到服务器超时'
+            item.version = 'Connection to server timed out'
             item.ping = -1
         except requests.exceptions.ConnectionError:
-            item.version = '地址访问失败'
+            item.version = 'Address access failed'
             item.ping = -1
         except:
-            item.version = '服务器访问失败'
+            item.version = 'Server access failed'
             item.ping = -1
 
         item.save()
