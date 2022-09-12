@@ -53,6 +53,6 @@ def _log_err(line: str):
 def _done_lan_play(cmd, success, exit_code):
     global lan_play, lan_address
 
-    print('Lanplay 进程结束')
+    print('Close LAN Play')
     lan_play = None
     lan_address = ''
