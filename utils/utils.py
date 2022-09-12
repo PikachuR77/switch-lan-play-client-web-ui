@@ -7,11 +7,11 @@ def make_success(code=1, msg='ok', data=None):
     return make_response(code, msg, data)
 
 
-def make_faild(code=0, msg='操作失败', data=None):
+def make_faild(code=0, msg='Operation Failed', data=None):
     return make_response(code, msg, data)
 
 
-def make_error(code=-1, msg='异常错误', data=None):
+def make_error(code=-1, msg='Operation Failed', data=None):
     return make_response(code, msg, data)
 
 
@@ -21,7 +21,7 @@ def make_response(code, msg, data):
     if isinstance(data, BaseModel):
         data = data.dict()
     if isinstance(code, int) is False or isinstance(msg, str) is False or isinstance(data, (dict, list)) is False:
-        current_app.logger.error('响应格式错误')
+        current_app.logger.error('Malformed Response')
         abort(500)
 
     result = {
